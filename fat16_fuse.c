@@ -5,6 +5,9 @@
 #include "fat16_fuse.h"
 
 /* ------------------------------------------- */
+/*
+	Poniższe funkcje pochodzą z programu 'hello_ll.c' będącego przykładem użycia interfejsu fuse  
+*/
 struct dirbuf {
     char *p;
     size_t size;

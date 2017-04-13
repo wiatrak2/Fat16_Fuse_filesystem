@@ -2,6 +2,11 @@
     Wojciech Pratkowiecki II UWr
     FAT16 FUSE driver
 */
+/*
+    fat16_fuse zawiera implementację poszczególnych funkcji interfejsu fuse.
+    Funkcje te umożliwiają prawidłową obsługę systemu plików.
+    Dokumentacja Fuse: http://libfuse.github.io/doxygen/ 
+*/
 #ifndef fat16_fuse_h
 #define fat16_fuse_h
 
@@ -15,17 +20,17 @@
 #include <assert.h>
 #include "fat16.h"
 
-void fat16_init( void *userdata, struct fuse_conn_info *conn );
-void fat16_destroy ( void *userdata );
-void fat16_lookup(fuse_req_t req, fuse_ino_t parent, const char *name);
-void fat16_getattr(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi);
-void fat16_readdir(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off, struct fuse_file_info *fi);
-void fat16_opendir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi);
-void fat16_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi);
-void fat16_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi);
-void fat16_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off, struct fuse_file_info *fi);
-void fat16_release(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi);
-void fat16_statfs(fuse_req_t req, fuse_ino_t ino);
+void fat16_init( void *userdata, struct fuse_conn_info *conn ); // funckja odpalana przy starcie programu
+void fat16_destroy ( void *userdata ); // funkcja odpalana przy odmontowywaniu systemu plików
+void fat16_lookup(fuse_req_t req, fuse_ino_t parent, const char *name); // wyszukiwanie plików w katalogu
+void fat16_getattr(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi); // pobieranie metadanych pliku
+void fat16_readdir(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off, struct fuse_file_info *fi); // czytanie wpisów w katalogu
+void fat16_opendir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi); // tworzenie uchwytu do katalogu
+void fat16_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi); // zwolnienie uchwytu do katalogu
+void fat16_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi); // tworzenie uchwytu do pliku
+void fat16_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t off, struct fuse_file_info *fi); // czytanie danego pliku
+void fat16_release(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi); // zwolnienie uchwytu do pliku
+void fat16_statfs(fuse_req_t req, fuse_ino_t ino); // pobranie metadancyh systemu plików
 
 struct fuse_lowlevel_ops fat16_ops = {
     .init       = fat16_init,

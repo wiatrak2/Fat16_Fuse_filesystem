@@ -107,7 +107,7 @@ typedef struct inode_entry
 } inode_entry;
 
 /*
-    inode_list - lista struktór inode_entry
+    inode_list - lista struktur inode_entry
 */
 
 struct inode_list
@@ -159,10 +159,18 @@ typedef struct fat16_filesystem
 
 } fat16_filesystem;
 
+/*
+    Funkcje początkowe, służące do inicjacji i uzupełnienia struktur trzymających informacje o systemie do zamontowania
+*/
 void open_filesystem ( fat16_filesystem *fs );
 fat16_attr *read_entry_attr ( root_directory *dir );
+/*
+    Uzupełnienie informacji o wskaźnikach na dany plik
+*/
 nlink_t set_nlink( inode_entry *entry );
-
+/*
+    Obsługa wektora sturktur inode_entry oraz pojedynczych instancji struktury
+*/
 inode_entry *init_inode ( uint64_t inode_num, root_directory *dir );
 void init_vector ( inode_vector *vector );
 void vector_push ( inode_vector *vector, inode_entry *entry );
@@ -170,16 +178,19 @@ inode_entry *get_inode_entry ( uint64_t ino, fat16_filesystem *fs );
 inode_entry *inode_lookup ( inode_entry *parent, const char *name );
 void set_readdir_entries ( fat16_filesystem *fs, inode_entry *dir_entry );
 inode_list *list_push ( inode_list *list, inode_entry *ino );
-
+/*
+    Poruszanie się po pliku będącym systemem fat16
+*/
 int seek_to_root_dir ( fat16_filesystem *fs );
 int seek_to_cluster ( fat16_filesystem *fs, uint16_t cluster );
 
 void read_file ( fat16_filesystem *fs, inode_entry *entry, char *buff, size_t size, off_t off );
-
+/*
+    Obsługa formatów zgodnych ze standardem fat16
+*/
 void read_date ( struct tm *tm, uint16_t fat16_date );
 void read_time ( struct tm *tm, uint16_t fat16_time );
 void get_date ( struct stat *st, root_directory *dir );
-
 char* format_filename( root_directory *dir );
 
 
